@@ -9,7 +9,6 @@ Favorite Locations: Users can save favorite locations locally using shared_prefe
 DarkMode: User can switch to Light Mode or Dark Mode
 
 ## Project Structure
-```
 - `lib/`: Contains the Dart code for the application.
   - `models/`: Definitions of data models.
   - `constants/`: Contains API Keys
@@ -18,7 +17,7 @@ DarkMode: User can switch to Light Mode or Dark Mode
   - `services/`: Services for external API communication.
   - `utils/`: Common Helpers.
 - `assets/`: Images and other assets used by the application.
-```
+  
 ## API Usage
 
 The app uses the OpenWeatherMap API to fetch current weather and forecast data:
