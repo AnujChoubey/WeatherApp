@@ -37,7 +37,7 @@ class WeatherCard extends StatelessWidget {
                   leading: Image.network(
                       'http://openweathermap.org/img/wn/${weather.icon}@4x.png').animate(onPlay: (controller) => controller.repeat(reverse: true)).moveY(duration: Duration(seconds: 4)),
                   title: Text(
-                    '${weather.temp}°C',
+                    '${weather.cityName} \n${weather.temp}°C',
                     style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
                   ),
                   subtitle: Text('${weather.description.toUpperCase()}'),

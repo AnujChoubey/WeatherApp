@@ -3,10 +3,12 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:provider/provider.dart';
+import 'package:weather_app/widgets/city_tile.dart';
 import '../models/weather_model.dart';
 import '../providers/weather_provider.dart';
 import '../widgets/forecast_card.dart';
 import '../widgets/weather_card.dart';
+import 'favourites_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   final VoidCallback toggleTheme;
@@ -31,25 +33,43 @@ class _HomeScreenState extends State<HomeScreen> {
     _controller.text = 'Bengaluru'; // Pre-fill the search bar with 'Bengaluru'
   }
 
+  void navigateToFavorites() async {
+    final selectedCity = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => FavoritesScreen()),
+    );
+
+    if (selectedCity != null) {
+      _controller.text = selectedCity;
+      Provider.of<WeatherProvider>(context, listen: false)
+          .getCurrentWeather(selectedCity);
+      Provider.of<WeatherProvider>(context, listen: false)
+          .get5DayForecast(selectedCity);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final weatherProvider = Provider.of<WeatherProvider>(context);
 
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: navigateToFavorites,
+        child: Icon(Icons.star),
+      ),
       body: Stack(
         children: [
           Positioned.fill(
             child: widget.isDarkMode
                 ? Image.asset(
-                    'assets/images/night_sky.jpeg',
-                    fit: BoxFit.fill,
+                    'assets/images/night_city.jpeg',
+                    fit: BoxFit.cover,
                   )
                 : Image.asset(
                     'assets/images/sky_omg.jpeg',
                     fit: BoxFit.cover,
                   ),
           ),
-
           SafeArea(
             child: Column(
               children: [
@@ -106,7 +126,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     //TODO: Api call can be put onChanged but since there is a limit to free API , discarding it.
                   ),
                 ),
-                SizedBox(height: 20),
+                Container(
+                    margin: EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).cardColor.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(16)),
+                    child: CityTile(city: _controller.text)),
                 weatherProvider.currentWeather != null
                     ? Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -116,7 +141,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             .fadeIn(),
                       )
                     : Text('Fetching weather data...'),
-                SizedBox(height: 20),
                 weatherProvider.currentWeather == null
                     ? CircularProgressIndicator()
                     : Expanded(

@@ -71,9 +71,7 @@ class ForecastCard extends StatelessWidget {
                               weather.description.toUpperCase(),
                               style: TextStyle(color: Colors.white),
                             ),
-                            SizedBox(height: 4),
                            PulsingIcon(iconUrl: 'http://openweathermap.org/img/wn/${weather.icon}@4x.png'),
-                            SizedBox(height: 4),
                             Text(
                               'Temp: ${weather.temp}°C',
                               style: TextStyle(color: Colors.white),

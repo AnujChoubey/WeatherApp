@@ -33,7 +33,7 @@ class _PulsingIconState extends State<PulsingIcon> with SingleTickerProviderStat
   Widget build(BuildContext context) {
     return ScaleTransition(
       scale: _controller!,
-      child: Image.network(widget.iconUrl,height: 100,width: 100,),
+      child: Image.network(widget.iconUrl,height: 80,width: 80,),
     );
   }
 }
