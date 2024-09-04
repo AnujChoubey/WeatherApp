@@ -21,7 +21,7 @@ class WeatherApiService {
           icon: data['weather'][0]['icon'],
           humidity: data['main']['humidity'],
           windSpeed: data['wind']['speed'],
-          dateTime: DateTime.now(),  // Use the current time for the current weather
+          dateTime: DateTime.now(),
         );
       } else {
         return null;
@@ -45,7 +45,6 @@ class WeatherApiService {
       final lat = currentWeatherData['coord']['lat'];
       final lon = currentWeatherData['coord']['lon'];
 
-      // Fetch 5-day forecast
       final forecastUrl = 'https://api.openweathermap.org/data/2.5/forecast?lat=$lat&lon=$lon&appid=$openWeatherMapApiKey&units=metric';
       final forecastResponse = await http.get(Uri.parse(forecastUrl));
 
@@ -53,12 +52,10 @@ class WeatherApiService {
         final forecastData = json.decode(forecastResponse.body);
         final Map<String, List<WeatherModel>> groupedForecast = {};
 
-        // Group forecast by day
         for (var item in forecastData['list']) {
           final dtTxt = item['dt_txt'];  // Format: "2024-09-04 09:00:00"
           final date = DateFormat('yyyy-MM-dd').format(DateTime.parse(dtTxt));
 
-          // Create WeatherModel from each forecast item
           final weather = WeatherModel(
             cityName: city,
             temp: double.parse(item['main']['temp'].toString()),
@@ -71,7 +68,6 @@ class WeatherApiService {
             dateTime: DateTime.parse(dtTxt),  // Save the exact date and time
           );
 
-          // Add to grouped forecast
           if (groupedForecast.containsKey(date)) {
             groupedForecast[date]?.add(weather);
           } else {

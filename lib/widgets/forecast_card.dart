@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'dart:ui';  // Import dart:ui for BackdropFilter and ImageFilter
+import 'dart:ui';
 import 'package:intl/intl.dart';
-import 'package:weather_app/screens/home_screen.dart';
 import 'package:weather_app/widgets/pulsing_icon.dart';
 import '../models/weather_model.dart';
 
@@ -48,7 +47,6 @@ class ForecastCard extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: dailyForecast.map((weather) {
-                      // Use DateFormat to convert 24-hour to 12-hour format
                       final String formattedHour = DateFormat('h a').format(weather.dateTime);
 
                       return Container(
@@ -56,14 +54,14 @@ class ForecastCard extends StatelessWidget {
                         padding: EdgeInsets.all(8.0),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
-                          color: Colors.blue.withOpacity(0.4),  // Adjust color and opacity
+                          color: Colors.blue.withOpacity(0.4),
                         ),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Text(
-                              formattedHour, // Changed from 24-hour to 12-hour format
-                              style: TextStyle(
+                              formattedHour,
+                              style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white),

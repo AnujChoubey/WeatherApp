@@ -8,13 +8,11 @@ class WeatherProvider with ChangeNotifier {
 
   WeatherApiService _apiService = WeatherApiService();
 
-  // Fetch the current weather
   Future<void> getCurrentWeather(String city) async {
     currentWeather = await _apiService.fetchCurrentWeather(city);
     notifyListeners();
   }
 
-  // Fetch the 5-day forecast and group it by date
   Future<void> get5DayForecast(String city) async {
     groupedForecast = await _apiService.fetch5DayForecast(city);
     notifyListeners();

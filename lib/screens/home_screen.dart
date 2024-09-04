@@ -38,7 +38,6 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          // Background image
           Positioned.fill(
             child: widget.isDarkMode
                 ? Image.asset(
