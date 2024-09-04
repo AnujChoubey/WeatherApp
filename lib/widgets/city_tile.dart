@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:weather_app/utils/common.dart';
 import '../providers/weather_provider.dart';
 
 class CityTile extends StatelessWidget {
@@ -20,8 +21,10 @@ class CityTile extends StatelessWidget {
         onPressed: () {
           if (isFavorite) {
             weatherProvider.removeFavoriteCity(city);
+            CommonHelper().showToast(context, 'Removed from Favourites');
           } else {
             weatherProvider.addFavoriteCity(city);
+            CommonHelper().showToast(context, 'Added to Favourites');
           }
         },
       ),

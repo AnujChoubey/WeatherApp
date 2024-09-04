@@ -36,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void navigateToFavorites() async {
     final selectedCity = await Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => FavoritesScreen()),
+      MaterialPageRoute(builder: (context) => FavoritesScreen(isDarkMode: widget.isDarkMode,)),
     );
 
     if (selectedCity != null) {
@@ -54,6 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Theme.of(context).cardColor.withOpacity(0.9),
         onPressed: navigateToFavorites,
         child: Icon(Icons.star),
       ),
@@ -131,7 +132,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     decoration: BoxDecoration(
                         color: Theme.of(context).cardColor.withOpacity(0.2),
                         borderRadius: BorderRadius.circular(16)),
-                    child: CityTile(city: _controller.text)),
+                    child: CityTile(city: _controller.text)).animate().fadeIn(),
                 weatherProvider.currentWeather != null
                     ? Padding(
                         padding: const EdgeInsets.all(8.0),
