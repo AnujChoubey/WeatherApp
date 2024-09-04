@@ -3,7 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'dart:ui';
 import 'package:intl/intl.dart';
 import 'package:weather_app/screens/home_screen.dart';
-import '../models/weather_model.dart';
+import '../../models/weather_model.dart';
 
 class WeatherCard extends StatelessWidget {
   final WeatherModel weather;

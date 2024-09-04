@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'dart:ui';
 import 'package:intl/intl.dart';
-import 'package:weather_app/widgets/pulsing_icon.dart';
-import '../models/weather_model.dart';
+import 'package:weather_app/view/widgets/pulsing_icon.dart';
+import '../../models/weather_model.dart';
 
 class ForecastCard extends StatelessWidget {
   final String date;
@@ -47,7 +47,7 @@ class ForecastCard extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: dailyForecast.map((weather) {
-                      final String formattedHour = DateFormat('h a').format(weather.dateTime);
+                      final String formattedHour = DateFormat('h a').format(weather!.dateTime);
 
                       return Container(
                         margin: const EdgeInsets.symmetric(horizontal: 8.0),

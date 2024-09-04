@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_app/utils/common.dart';
-import '../providers/weather_provider.dart';
+import '../../providers/weather_provider.dart';
 
 class FavoritesScreen extends StatefulWidget {
   final bool isDarkMode;
