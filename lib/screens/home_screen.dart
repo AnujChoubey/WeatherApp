@@ -56,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).cardColor.withOpacity(0.9),
         onPressed: navigateToFavorites,
-        child: Icon(Icons.star),
+        child: const Icon(Icons.star),
       ),
       body: Stack(
         children: [
@@ -141,7 +141,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             .animate()
                             .fadeIn(),
                       )
-                    : Text('Fetching weather data...'),
+                    : const Text('Fetching weather data...'),
                 weatherProvider.currentWeather == null
                     ? CircularProgressIndicator()
                     : Expanded(

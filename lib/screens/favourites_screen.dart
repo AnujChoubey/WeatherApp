@@ -53,11 +53,11 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                             .displaySmall!
                             .copyWith(fontSize: 21, fontWeight: FontWeight.w700),
                       ),
-                      SizedBox()
+                      const SizedBox()
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 ListView.builder(
@@ -66,7 +66,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                   itemBuilder: (context, index) {
                     String city = weatherProvider.favoriteCities[index];
                     return Container(
-                      margin: EdgeInsets.all(16),
+                      margin: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
                           color: widget.isDarkMode?Colors.white.withOpacity(0.4):Colors.black.withOpacity(0.4),
                           borderRadius: BorderRadius.circular(16)),
@@ -76,7 +76,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                           weatherProvider.removeFavoriteCity(city);
                           CommonHelper().showToast(context,'Deleted from favourites');
                         },
-                        trailing: Icon(Icons.delete,color: Colors.red,),
+                        trailing: const Icon(Icons.delete,color: Colors.red,),
                       ),
                     );
                   },

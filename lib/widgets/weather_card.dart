@@ -15,7 +15,7 @@ class WeatherCard extends StatelessWidget {
     final timeFormatter = DateFormat('h:mm a');
 
     return Container(
-      margin: EdgeInsets.all(8.0),
+      margin: const EdgeInsets.all(8.0),
 
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor.withOpacity(0.2),
@@ -26,7 +26,7 @@ class WeatherCard extends StatelessWidget {
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
           child: Container(
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               color: Theme.of(context).cardColor.withOpacity(0.2),
               borderRadius: BorderRadius.circular(16),
@@ -38,7 +38,7 @@ class WeatherCard extends StatelessWidget {
                       'http://openweathermap.org/img/wn/${weather.icon}@4x.png').animate(onPlay: (controller) => controller.repeat(reverse: true)).moveY(duration: Duration(seconds: 4)),
                   title: Text(
                     '${weather.cityName} \n${weather.temp}°C',
-                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
                   ),
                   subtitle: Text('${weather.description.toUpperCase()}'),
                 ),

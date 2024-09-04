@@ -17,7 +17,7 @@ class ForecastCard extends StatelessWidget {
     final String formattedDate = DateFormat('MMM d').format(parsedDate);
 
     return Container(
-      margin: EdgeInsets.all(8.0),
+      margin: const EdgeInsets.all(8.0),
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor.withOpacity(0.2),  // Semi-transparent card
         borderRadius: BorderRadius.circular(16),
@@ -27,7 +27,7 @@ class ForecastCard extends StatelessWidget {
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),  // Blur effect
           child: Container(
-            padding: EdgeInsets.only(left:0,right: 0,top: 8,bottom: 16),
+            padding: const EdgeInsets.only(left:0,right: 0,top: 8,bottom: 16),
             decoration: BoxDecoration(
               color: Theme.of(context).cardColor.withOpacity(0.2),  // Adjust opacity for visual effect
               borderRadius: BorderRadius.circular(16),
@@ -42,7 +42,7 @@ class ForecastCard extends StatelessWidget {
                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w600),
                   ),
                 ),
-                SizedBox(height: 8),
+                const  SizedBox(height: 8),
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
@@ -50,8 +50,8 @@ class ForecastCard extends StatelessWidget {
                       final String formattedHour = DateFormat('h a').format(weather.dateTime);
 
                       return Container(
-                        margin: EdgeInsets.symmetric(horizontal: 8.0),
-                        padding: EdgeInsets.all(8.0),
+                        margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                        padding:const  EdgeInsets.all(8.0),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
                           color: Colors.blue.withOpacity(0.4),
@@ -66,23 +66,23 @@ class ForecastCard extends StatelessWidget {
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white),
                             ),
-                            SizedBox(height: 4),
+                            const  SizedBox(height: 4),
                             Text(
                               weather.description.toUpperCase(),
-                              style: TextStyle(color: Colors.white),
+                              style: const TextStyle(color: Colors.white),
                             ),
                            PulsingIcon(iconUrl: 'http://openweathermap.org/img/wn/${weather.icon}@4x.png'),
                             Text(
                               'Temp: ${weather.temp}°C',
-                              style: TextStyle(color: Colors.white),
+                              style: const TextStyle(color: Colors.white),
                             ),
                             Text(
                               'Min: ${weather.tempMin}°C',
-                              style: TextStyle(color: Colors.white),
+                              style: const TextStyle(color: Colors.white),
                             ),
                             Text(
                               'Max: ${weather.tempMax}°C',
-                              style: TextStyle(color: Colors.white),
+                              style: const TextStyle(color: Colors.white),
                             ),
                           ],
                         ),
