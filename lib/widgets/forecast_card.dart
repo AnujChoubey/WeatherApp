@@ -1,0 +1,104 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'dart:ui';  // Import dart:ui for BackdropFilter and ImageFilter
+import 'package:intl/intl.dart';
+import 'package:weather_app/screens/home_screen.dart';
+import 'package:weather_app/widgets/pulsing_icon.dart';
+import '../models/weather_model.dart';
+
+class ForecastCard extends StatelessWidget {
+  final String date;
+  final List<WeatherModel> dailyForecast;
+
+  ForecastCard({required this.date, required this.dailyForecast});
+
+  @override
+  Widget build(BuildContext context) {
+    final DateTime parsedDate = DateTime.parse(date);
+    final String formattedDate = DateFormat('MMM d').format(parsedDate);
+
+    return Container(
+      margin: EdgeInsets.all(8.0),
+      decoration: BoxDecoration(
+        color: Theme.of(context).cardColor.withOpacity(0.2),  // Semi-transparent card
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(16),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),  // Blur effect
+          child: Container(
+            padding: EdgeInsets.only(left:0,right: 0,top: 8,bottom: 16),
+            decoration: BoxDecoration(
+              color: Theme.of(context).cardColor.withOpacity(0.2),  // Adjust opacity for visual effect
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'Weather for $formattedDate',
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w600),
+                  ),
+                ),
+                SizedBox(height: 8),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: dailyForecast.map((weather) {
+                      // Use DateFormat to convert 24-hour to 12-hour format
+                      final String formattedHour = DateFormat('h a').format(weather.dateTime);
+
+                      return Container(
+                        margin: EdgeInsets.symmetric(horizontal: 8.0),
+                        padding: EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.blue.withOpacity(0.4),  // Adjust color and opacity
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              formattedHour, // Changed from 24-hour to 12-hour format
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            ),
+                            SizedBox(height: 4),
+                            Text(
+                              weather.description.toUpperCase(),
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            SizedBox(height: 4),
+                           PulsingIcon(iconUrl: 'http://openweathermap.org/img/wn/${weather.icon}@4x.png'),
+                            SizedBox(height: 4),
+                            Text(
+                              'Temp: ${weather.temp}°C',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            Text(
+                              'Min: ${weather.tempMin}°C',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            Text(
+                              'Max: ${weather.tempMax}°C',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ],
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ],
+            ),
+          ).animate().fadeIn(),
+        ),
+      ),
+    );
+  }
+}
