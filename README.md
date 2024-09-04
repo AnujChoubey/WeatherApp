@@ -12,10 +12,11 @@ cd weather-app
 ## Building
 
 To build the apk:
-
+```
 flutter pub get
 flutter build apk --release  # For Android
 flutter build ios --release  # For iOS, requires a MacOS machine
+```
 
 ## Running the project
 
