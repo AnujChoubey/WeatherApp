@@ -43,7 +43,6 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                           onTap: () {
                             Navigator.pop(context);
                             FocusScope.of(context).unfocus();
-
                           },
                           child: Icon(Icons.arrow_back)),
                       Text(
@@ -51,7 +50,8 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                         style: Theme.of(context)
                             .textTheme
                             .displaySmall!
-                            .copyWith(fontSize: 21, fontWeight: FontWeight.w700),
+                            .copyWith(
+                                fontSize: 21, fontWeight: FontWeight.w700),
                       ),
                       const SizedBox()
                     ],
@@ -68,15 +68,29 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                     return Container(
                       margin: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                          color: widget.isDarkMode?Colors.white.withOpacity(0.4):Colors.black.withOpacity(0.4),
+                          color: widget.isDarkMode
+                              ? Colors.black.withOpacity(0.4)
+                              : Colors.white.withOpacity(0.4),
                           borderRadius: BorderRadius.circular(16)),
                       child: ListTile(
-                        title: Text(city),
+                        title: Text(city,style: Theme.of(context)
+                            .textTheme
+                            .displaySmall!
+                            .copyWith(
+                            fontSize: 21, fontWeight: FontWeight.w700),),
                         onTap: () {
-                          weatherProvider.removeFavoriteCity(city);
-                          CommonHelper().showToast(context,'Deleted from favourites');
+                          Navigator.pop(context, city);
                         },
-                        trailing: const Icon(Icons.delete,color: Colors.red,),
+                        trailing: InkWell(
+                            onTap: () {
+                              weatherProvider.removeFavoriteCity(city);
+                              CommonHelper().showToast(
+                                  context, 'Deleted from favourites');
+                            },
+                            child: const Icon(
+                              Icons.delete,
+                              color: Colors.red,
+                            )),
                       ),
                     );
                   },
@@ -88,5 +102,4 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
       ),
     );
   }
-
 }
