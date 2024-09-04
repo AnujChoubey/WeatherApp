@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:weather_app/utils/theme.dart';
 import 'package:weather_app/view/screens/home_screen.dart';
 import 'providers/weather_provider.dart';
-import 'screens/home_screen.dart';
 
 void main() {
   runApp(MyApp());
