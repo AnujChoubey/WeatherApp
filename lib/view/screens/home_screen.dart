@@ -26,17 +26,24 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    Provider.of<WeatherProvider>(context, listen: false)
-        .getCurrentWeather('Bengaluru');
-    Provider.of<WeatherProvider>(context, listen: false)
-        .get5DayForecast('Bengaluru');
-    _controller.text = 'Bengaluru'; // Pre-fill the search bar with 'Bengaluru'
+    initialFetch();
+  }
+
+  void initialFetch() async {
+    final weatherProvider =
+        Provider.of<WeatherProvider>(context, listen: false);
+    await weatherProvider.getCurrentWeather('Bengaluru');
+    await weatherProvider.get5DayForecast('Bengaluru');
+    _controller.text = 'Bengaluru';
   }
 
   void navigateToFavorites() async {
     final selectedCity = await Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => FavoritesScreen(isDarkMode: widget.isDarkMode,)),
+      MaterialPageRoute(
+          builder: (context) => FavoritesScreen(
+                isDarkMode: widget.isDarkMode,
+              )),
     );
 
     if (selectedCity != null) {
@@ -51,6 +58,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final weatherProvider = Provider.of<WeatherProvider>(context);
+    bool isLoading = weatherProvider.currentWeather == null &&
+        weatherProvider.errorMessage.isEmpty;
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
@@ -62,14 +71,25 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Positioned.fill(
             child: widget.isDarkMode
-                ? Image.asset(
-                    'assets/images/night_city.jpeg',
-                    fit: BoxFit.cover,
-                  )
-                : Image.asset(
-                    'assets/images/sky_omg.jpeg',
-                    fit: BoxFit.cover,
-                  ),
+                ? BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),  // Blur effect
+                  child: Image.asset(
+                                'assets/images/night_city.jpeg',
+                                fit: BoxFit.cover,
+                              ),
+                )
+                : Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [Colors.blueAccent,
+                    Colors.blueAccent,
+                    Colors.blueAccent,
+                    Colors.white],
+                ),
+              ),
+            )
           ),
           SafeArea(
             child: Column(
@@ -118,6 +138,17 @@ class _HomeScreenState extends State<HomeScreen> {
                           weatherProvider.get5DayForecast(_controller.text);
                         },
                       ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30.0),  // Set the border radius here
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                        borderSide: BorderSide(color: Theme.of(context).primaryColorLight, width: 1.0),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                        borderSide: BorderSide(color: Colors.white, width: 2.0),
+                      ),
                     ),
                     onEditingComplete: () {
                       FocusScope.of(context).unfocus();
@@ -128,38 +159,48 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 Container(
-                    margin: EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                        color: Theme.of(context).cardColor.withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(16)),
-                    child: CityTile(city: _controller.text)).animate().fadeIn(),
-                weatherProvider.currentWeather != null
-                    ? Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: WeatherCard(
-                                weather: weatherProvider.currentWeather!)
-                            .animate()
-                            .fadeIn(),
-                      )
-                    : const Text('Fetching weather data...'),
-                weatherProvider.currentWeather == null
-                    ? CircularProgressIndicator()
-                    : Expanded(
-                        child: ListView.builder(
-                          physics: BouncingScrollPhysics(),
-                          itemCount: weatherProvider.groupedForecast.length,
-                          itemBuilder: (context, index) {
-                            String date = weatherProvider.groupedForecast.keys
-                                .elementAt(index);
-                            List<WeatherModel> dailyForecast =
-                                weatherProvider.groupedForecast[date]!;
-                            return ForecastCard(
-                              date: date,
-                              dailyForecast: dailyForecast,
-                            ).animate().fadeIn();
-                          },
-                        ),
-                      ),
+                        margin: EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                            color: Theme.of(context).cardColor.withOpacity(0.2),
+                            borderRadius: BorderRadius.circular(16)),
+                        child: CityTile(city: _controller.text))
+                    .animate()
+                    .fadeIn(),
+                if (isLoading)
+                  CircularProgressIndicator()
+                else if (weatherProvider.errorMessage.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 50.0),
+                    child: Text(
+                      weatherProvider.errorMessage,
+                      style:
+                          TextStyle(fontSize: 21, fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                if (weatherProvider.currentWeather != null) ...[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: WeatherCard(weather: weatherProvider.currentWeather!)
+                        .animate()
+                        .fadeIn(),
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      itemCount: weatherProvider.groupedForecast.length,
+                      itemBuilder: (context, index) {
+                        String date = weatherProvider.groupedForecast.keys
+                            .elementAt(index);
+                        List<WeatherModel> dailyForecast =
+                            weatherProvider.groupedForecast[date]!;
+                        return ForecastCard(
+                          date: date,
+                          dailyForecast: dailyForecast,
+                        ).animate().fadeIn();
+                      },
+                    ),
+                  ),
+                ]
               ],
             ),
           ),

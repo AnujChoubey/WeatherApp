@@ -6,6 +6,7 @@ import '../utils/storage_helper.dart';
 class WeatherProvider with ChangeNotifier {
   WeatherModel? currentWeather;
   Map<String, List<WeatherModel>> groupedForecast = {};
+  String errorMessage = '';
 
   WeatherApiService _apiService = WeatherApiService();
   FavoriteCitiesStorage storage = FavoriteCitiesStorage();
@@ -31,12 +32,31 @@ class WeatherProvider with ChangeNotifier {
   }
 
   Future<void> getCurrentWeather(String city) async {
-    currentWeather = await _apiService.fetchCurrentWeather(city);
+    try{
+      currentWeather = await _apiService.fetchCurrentWeather(city);
+      errorMessage = '';
+      notifyListeners();
+    }
+    catch(e){
+      errorMessage = 'Failed to fetch weather data';
+      currentWeather = null;
+      notifyListeners();
+    }
     notifyListeners();
+
   }
 
   Future<void> get5DayForecast(String city) async {
-    groupedForecast = await _apiService.fetch5DayForecast(city);
+    try{
+      groupedForecast = await _apiService.fetch5DayForecast(city);
+      errorMessage = '';
+
+      notifyListeners();
+    }
+    catch(e){
+      errorMessage = 'Failed to fetch weather data';
+      notifyListeners();
+    }
     notifyListeners();
   }
 }

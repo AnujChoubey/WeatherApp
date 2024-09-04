@@ -26,10 +26,18 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                     'assets/images/night_city.jpeg',
                     fit: BoxFit.cover,
                   )
-                : Image.asset(
-                    'assets/images/sky_omg.jpeg',
-                    fit: BoxFit.cover,
-                  ),
+                : Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [Colors.blueAccent,
+                    Colors.blueAccent,
+                    Colors.blueAccent,
+                    Colors.white],
+                ),
+              ),
+            ),
           ),
           SafeArea(
             child: Column(
