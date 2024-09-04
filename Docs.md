@@ -26,7 +26,7 @@ The app uses the OpenWeatherMap API to fetch current weather and forecast data:
 - **Current Weather API**: Used to get real-time weather data.
 - **Forecast API**: Used to retrieve a 5-day weather forecast.(Since the free version was not giving 7-day forecast)
 
-API keys are stored in `lib/config.dart` and must be set before building the project.
+API keys are stored in `lib/constants.api_keys.dart` and must be set before building the project.
 
 ## Assumptions
 
